@@ -20,13 +20,13 @@ class _NewExpenseState extends State<NewExpense> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime? _selectedDate;
+  Category _selectedCategory = Category.leisure;
 
   void _presentDatePicker() async {
     final now = DateTime.now();
 
     // First date is today - 1 year, but everything is today
     final firstDate = DateTime(now.year - 1, now.month, now.day);
-
 
     final pickedDate = await showDatePicker(
       context: context,
@@ -40,8 +40,6 @@ class _NewExpenseState extends State<NewExpense> {
     setState(() {
       _selectedDate = pickedDate;
     });
-
-    
   }
 
   @override
@@ -86,7 +84,6 @@ class _NewExpenseState extends State<NewExpense> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-
                     // Displays date text next to the calendar icon
                     // Also we use the ! at the end of _selectDate to force date that selectDate will
                     // never be null (because we checked for it previously)
@@ -106,7 +103,45 @@ class _NewExpenseState extends State<NewExpense> {
               ),
             ],
           ),
+
+          // Adding more space between the amount row and the row after
+          const SizedBox(height: 16),
+
+          // Row with dropdown, cancel, and save expense
           Row(children: [
+            // DropDown Button
+            DropdownButton(
+                // Shows the text on the drop down
+                value: _selectedCategory,
+                // A specific enum value is mapped to the value
+                items: Category.values
+                    .map(
+                      (category) => DropdownMenuItem(
+                        value: category,
+                        child: Text(
+                          category.name.toUpperCase(),
+                        ),
+                      ),
+
+                      // Making it into a list
+                    )
+                    .toList(),
+                onChanged: (value) {
+
+                  // If the user hasn't chosen a category, display nothing
+                  if(value == null){
+                      return;
+                    }
+
+                  // Otherwise, display the selected categories value
+                  setState(() {
+                    _selectedCategory = value;
+                  });
+                }),
+            
+            // Spacing out the category dropdown and the other buttons
+            const Spacer(),
+
             // Cancel Button
             TextButton(
               onPressed: () {
