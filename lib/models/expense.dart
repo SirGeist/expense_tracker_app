@@ -42,7 +42,30 @@ class Expense {
   // derived based on other class properties
   // Using intl package for easier date formatting
 
-  String get formattedDate{
+  String get formattedDate {
     return formatter.format(date);
+  }
+}
+
+class ExpenseBucket {
+  const ExpenseBucket({
+    required this.category,
+    required this.expenses,
+  });
+
+  final Category category;
+  final List<Expense> expenses;
+
+  double get totalExpenses {
+    double sum = 0;
+
+
+    // Looping through the expenses list
+    // Then summing them up
+    for(final expense in expenses){
+      sum += expense.amount;
+    }
+
+    return sum;
   }
 }
