@@ -11,7 +11,20 @@ class Expenses extends StatefulWidget {
 }
 
 class _ExpensesState extends State<Expenses> {
-  final List<Expense> _registeredExpenses = [];
+  final List<Expense> _registeredExpenses = [
+    Expense(
+      title: 'Flutter course',
+      amount: 12,
+      date: DateTime(2023, 12, 12),
+      category: Category.work,
+    ),
+    Expense(
+      title: 'Hamburger',
+      amount: 30,
+      date: DateTime(2021, 4, 17),
+      category: Category.food,
+    ),
+  ];
 
   void _openAddExpenseOverlay() {
     // When you are in a class that extends state, context is automatically provided
@@ -40,7 +53,7 @@ class _ExpensesState extends State<Expenses> {
     // Removing all expenses
     ScaffoldMessenger.of(context).clearSnackBars();
 
-    // Show snackbar at the bottom of the device that will display 
+    // Show snackbar at the bottom of the device that will display
     // a message that shows an expense has been deleted
     // an icon will also be displayed to undo the deletion
     ScaffoldMessenger.of(context).showSnackBar(
