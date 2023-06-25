@@ -117,6 +117,8 @@ class _ExpensesState extends State<Expenses> {
                 // Using a expanded contraint as the chart to only take as much
                 // width as available in the row after sizing the other row
                 // children
+                // Without Expanded() the double.infinity in chart.dart will
+                // interfere with the row
                 Expanded(
                   child: Chart(
                     expenses: _registeredExpenses,
