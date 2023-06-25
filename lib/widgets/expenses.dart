@@ -75,6 +75,9 @@ class _ExpensesState extends State<Expenses> {
 
   @override
   Widget build(BuildContext context) {
+    // Finding the width and height of the device
+    final width = MediaQuery.of(context).size.width;
+
     Widget mainContent = const Center(
       child: Text('No expenses found. Start adding something!'),
     );
@@ -96,14 +99,34 @@ class _ExpensesState extends State<Expenses> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Chart(expenses: _registeredExpenses,),
-          Expanded(
-            child: mainContent,
-          ), // passing the dummy code to the class
-        ],
-      ),
+
+      // Switch based on whether device is an portrait or landscape mode
+      body: width < 600
+          ? Column(
+              children: [
+                Chart(
+                  expenses: _registeredExpenses,
+                ),
+                Expanded(
+                  child: mainContent,
+                ), // passing the dummy code to the class
+              ],
+            )
+          : Row(
+              children: [
+                // Using a expanded contraint as the chart to only take as much
+                // width as available in the row after sizing the other row
+                // children
+                Expanded(
+                  child: Chart(
+                    expenses: _registeredExpenses,
+                  ),
+                ),
+                Expanded(
+                  child: mainContent,
+                ),
+              ],
+            ),
     );
   }
 }
