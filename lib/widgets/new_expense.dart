@@ -98,118 +98,227 @@ class _NewExpenseState extends State<NewExpense> {
     // certain parts of the UI
     final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
 
-    return SizedBox(
-      height: double.infinity,
-      child: SingleChildScrollView(
-        child: Padding(
-          // always have 16 pixels on the bottom padding but add extra space that is
-          // taken up by the keyboard
-          padding: EdgeInsets.fromLTRB(16, 48, 16, keyboardSpace + 16),
-          child: Column(
-            children: [
-              TextField(
-                // 1st way to store data
-                //onChanged: _saveTitleInput,
-                // 2nd way to store data (more efficient because need more
-                // text field and don't want to manually manage)
-                controller: _titleController,
-                maxLength: 50,
-                decoration: const InputDecoration(
-                  label: Text('Title'),
-                ),
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _amountController,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        prefixText: '\$ ',
-                        label: Text('Amount'),
+    // Using layoutbuilder to build dynamic layouts
+    return LayoutBuilder(builder: (ctx, constraints) {
+      final width = constraints.maxWidth;
+
+      return SizedBox(
+        height: double.infinity,
+        child: SingleChildScrollView(
+          child: Padding(
+            // always have 16 pixels on the bottom padding but add extra space that is
+            // taken up by the keyboard
+            padding: EdgeInsets.fromLTRB(16, 16, 16, keyboardSpace + 16),
+            child: Column(
+              children: [
+                if (width > 600)
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          // 1st way to store data
+                          //onChanged: _saveTitleInput,
+                          // 2nd way to store data (more efficient because need more
+                          // text field and don't want to manually manage)
+                          controller: _titleController,
+                          maxLength: 50,
+                          decoration: const InputDecoration(
+                            label: Text('Title'),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        // Displays date text next to the calendar icon
-                        // Also we use the ! at the end of _selectDate to force date that selectDate will
-                        // never be null (because we checked for it previously)
-                        Text(
-                          _selectedDate == null
-                              ? 'No date selected'
-                              : formatter.format(_selectedDate!),
-                        ),
-                        IconButton(
-                          onPressed: _presentDatePicker,
-                          icon: const Icon(
-                            Icons.calendar_month,
+                      const SizedBox(width: 24),
+                      Expanded(
+                        child: TextField(
+                          controller: _amountController,
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            prefixText: '\$ ',
+                            label: Text('Amount'),
                           ),
                         ),
-                      ],
+                      ),
+                    ],
+                  )
+                else
+                  TextField(
+                    // 1st way to store data
+                    //onChanged: _saveTitleInput,
+                    // 2nd way to store data (more efficient because need more
+                    // text field and don't want to manually manage)
+                    controller: _titleController,
+                    maxLength: 50,
+                    decoration: const InputDecoration(
+                      label: Text('Title'),
                     ),
                   ),
-                ],
-              ),
-    
-              // Adding more space between the amount row and the row after
-              const SizedBox(height: 16),
-    
-              // Row with dropdown, cancel, and save expense
-              Row(children: [
-                // DropDown Button
-                DropdownButton(
-                    // Shows the text on the drop down
-                    value: _selectedCategory,
-                    // A specific enum value is mapped to the value
-                    items: Category.values
-                        .map(
-                          (category) => DropdownMenuItem(
-                            value: category,
-                            child: Text(
-                              category.name.toUpperCase(),
+                if (width >= 600)
+                  Row(
+                    children: [
+                      DropdownButton(
+                          // Shows the text on the drop down
+                          value: _selectedCategory,
+                          // A specific enum value is mapped to the value
+                          items: Category.values
+                              .map(
+                                (category) => DropdownMenuItem(
+                                  value: category,
+                                  child: Text(
+                                    category.name.toUpperCase(),
+                                  ),
+                                ),
+
+                                // Making it into a list
+                              )
+                              .toList(),
+                          onChanged: (value) {
+                            // If the user hasn't chosen a category, display nothing
+                            if (value == null) {
+                              return;
+                            }
+
+                            // Otherwise, display the selected categories value
+                            setState(() {
+                              _selectedCategory = value;
+                            });
+                          }),
+                      const SizedBox(width: 24),
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            // Displays date text next to the calendar icon
+                            // Also we use the ! at the end of _selectDate to force date that selectDate will
+                            // never be null (because we checked for it previously)
+                            Text(
+                              _selectedDate == null
+                                  ? 'No date selected'
+                                  : formatter.format(_selectedDate!),
                             ),
+                            IconButton(
+                              onPressed: _presentDatePicker,
+                              icon: const Icon(
+                                Icons.calendar_month,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
+                else
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _amountController,
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            prefixText: '\$ ',
+                            label: Text('Amount'),
                           ),
-    
-                          // Making it into a list
-                        )
-                        .toList(),
-                    onChanged: (value) {
-                      // If the user hasn't chosen a category, display nothing
-                      if (value == null) {
-                        return;
-                      }
-    
-                      // Otherwise, display the selected categories value
-                      setState(() {
-                        _selectedCategory = value;
-                      });
-                    }),
-    
-                // Spacing out the category dropdown and the other buttons
-                const Spacer(),
-    
-                // Cancel Button
-                TextButton(
-                  onPressed: () {
-                    // Pops the modal by pressing the "cancel button"
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Cancel'),
-                ),
-                ElevatedButton(
-                  onPressed: _submitExpenseData,
-                  child: const Text('Save Expense'),
-                ),
-              ]),
-            ],
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            // Displays date text next to the calendar icon
+                            // Also we use the ! at the end of _selectDate to force date that selectDate will
+                            // never be null (because we checked for it previously)
+                            Text(
+                              _selectedDate == null
+                                  ? 'No date selected'
+                                  : formatter.format(_selectedDate!),
+                            ),
+                            IconButton(
+                              onPressed: _presentDatePicker,
+                              icon: const Icon(
+                                Icons.calendar_month,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+
+                // Adding more space between the amount row and the row after
+                const SizedBox(height: 16),
+                if (width >= 600)
+                  Row(children: [
+                    const Spacer(),
+
+                    // Cancel Button
+                    TextButton(
+                      onPressed: () {
+                        // Pops the modal by pressing the "cancel button"
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Cancel'),
+                    ),
+                    ElevatedButton(
+                      onPressed: _submitExpenseData,
+                      child: const Text('Save Expense'),
+                    ),
+                  ])
+                else
+                  // Row with dropdown, cancel, and save expense
+                  Row(children: [
+                    // DropDown Button
+                    DropdownButton(
+                        // Shows the text on the drop down
+                        value: _selectedCategory,
+                        // A specific enum value is mapped to the value
+                        items: Category.values
+                            .map(
+                              (category) => DropdownMenuItem(
+                                value: category,
+                                child: Text(
+                                  category.name.toUpperCase(),
+                                ),
+                              ),
+
+                              // Making it into a list
+                            )
+                            .toList(),
+                        onChanged: (value) {
+                          // If the user hasn't chosen a category, display nothing
+                          if (value == null) {
+                            return;
+                          }
+
+                          // Otherwise, display the selected categories value
+                          setState(() {
+                            _selectedCategory = value;
+                          });
+                        }),
+
+                    // Spacing out the category dropdown and the other buttons
+                    const Spacer(),
+
+                    // Cancel Button
+                    TextButton(
+                      onPressed: () {
+                        // Pops the modal by pressing the "cancel button"
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Cancel'),
+                    ),
+                    ElevatedButton(
+                      onPressed: _submitExpenseData,
+                      child: const Text('Save Expense'),
+                    ),
+                  ]),
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

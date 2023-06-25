@@ -31,6 +31,11 @@ class _ExpensesState extends State<Expenses> {
     // When you are in a class that extends state, context is automatically provided
     // The "context" value is metadata that has information on relation to other widgets
     showModalBottomSheet(
+
+      // Staying away from device features like the camera that might affect
+      // the UI; flutter will know how much space the camera takes up
+      // scaffold use this internally
+      useSafeArea: true,
       isScrollControlled: true,
       context: context,
       builder: (ctx) => NewExpense(onAddExpense: _addExpense),
