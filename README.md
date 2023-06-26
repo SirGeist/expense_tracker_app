@@ -15,3 +15,12 @@ expense type and its total quantity.
 - Cupertino_icons: '^1.0.2'
 
 ## Demonstration
+
+![](https://github.com/SirGeist/expense_tracker_app/blob/main/images_and_gifs/expenseAdding.gif)
+
+![](https://github.com/SirGeist/expense_tracker_app/blob/main/images_and_gifs/expenseDeletion.gif)
+
+![](https://github.com/SirGeist/expense_tracker_app/blob/main/images_and_gifs/expenseLandscape.png)
+
+![](https://github.com/SirGeist/expense_tracker_app/blob/main/images_and_gifs/expenseModalLandscape.png)
+
