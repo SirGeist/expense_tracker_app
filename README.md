@@ -16,11 +16,15 @@ expense type and its total quantity.
 
 ## Demonstration
 
-![](https://github.com/SirGeist/expense_tracker_app/blob/main/images_and_gifs/expenseAdding.gif)
+<div style="display: flex;">
+    <img src = "https://github.com/SirGeist/expense_tracker_app/blob/main/images_and_gifs/expenseAdding.gif" alt="Gif 1">
+    <img src = "https://github.com/SirGeist/expense_tracker_app/blob/main/images_and_gifs/expenseDeletion.gif" alt = "Gif 2">
+</div>
 
-![](https://github.com/SirGeist/expense_tracker_app/blob/main/images_and_gifs/expenseDeletion.gif)
+<p align = "center">
+    <img src ="https://github.com/SirGeist/expense_tracker_app/blob/main/images_and_gifs/expenseLandscape.png" alt="Centered Image">
+    <img src ="https://github.com/SirGeist/expense_tracker_app/blob/main/images_and_gifs/expenseModalLandscape.png" alt="Centered Image2">
+</p>
 
-![](https://github.com/SirGeist/expense_tracker_app/blob/main/images_and_gifs/expenseLandscape.png)
 
-![](https://github.com/SirGeist/expense_tracker_app/blob/main/images_and_gifs/expenseModalLandscape.png)
 
