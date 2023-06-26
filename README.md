@@ -16,7 +16,7 @@ expense type and its total quantity.
 
 ## Demonstration
 
-<div style="display: flex;">
+<div align="center">
     <img src = "https://github.com/SirGeist/expense_tracker_app/blob/main/images_and_gifs/expenseAdding.gif" alt="Gif 1">
     <img src = "https://github.com/SirGeist/expense_tracker_app/blob/main/images_and_gifs/expenseDeletion.gif" alt = "Gif 2">
 </div>
@@ -27,4 +27,14 @@ expense type and its total quantity.
 </p>
 
 
+## Credits
+1. The tutorial used was created by Maximilian Schwarzmuller.
+    - Title of course: Flutter & Dart - The Complete Guide [2023 Edition]
+    - Source: https://www.udemy.com/course/learn-flutter-dart-to-build-ios-android-apps/
 
+2. For more information about the Intl library that was used
+    - Source: https://pub.dev/packages/intl
+
+3. For more information about the Uuid library that was used
+    - Source: https://pub.dev/packages/uuid
+    
